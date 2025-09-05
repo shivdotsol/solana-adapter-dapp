@@ -1,4 +1,3 @@
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -12,13 +11,12 @@ import {
 import "@solana/wallet-adapter-react-ui/styles.css";
 import Airdrop from "./Airdrop";
 import SignMessage from "./SignMessage";
+import Send from "./Send";
 
 function App() {
   return (
     <ConnectionProvider
-      endpoint={
-        "https://solana-devnet.g.alchemy.com/v2/1Gc10b6c3_nM4Wk-Im50fmCtKwky6elD"
-      }
+      endpoint={"https://solana-devnet.g.alchemy.com/v2/S2hTvPuHMw8Ysaa0AMfgi"}
     >
       <WalletProvider wallets={[]} autoConnect>
         <WalletModalProvider>
@@ -30,6 +28,7 @@ function App() {
             <div className="flex gap-x-5 flex-wrap gap-y-5">
               <Airdrop />
               <SignMessage />
+              <Send />
             </div>
           </div>
         </WalletModalProvider>
