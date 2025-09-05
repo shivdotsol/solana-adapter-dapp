@@ -8,16 +8,11 @@ import {
   WalletModalProvider,
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
-import { useMemo } from "react";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import Airdrop from "./Airdrop";
 
 function App() {
-  // const network = WalletAdapterNetwork.Devnet;
-  // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-
   return (
     <ConnectionProvider
       endpoint={
