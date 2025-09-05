@@ -11,6 +11,7 @@ import {
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import Airdrop from "./Airdrop";
+import SignMessage from "./SignMessage";
 
 function App() {
   return (
@@ -21,10 +22,15 @@ function App() {
     >
       <WalletProvider wallets={[]} autoConnect>
         <WalletModalProvider>
-          <div className="h-screen flex flex-col gap-y-1 items-center justify-center">
-            <WalletMultiButton />
-            <WalletDisconnectButton />
-            <Airdrop />
+          <div className="px-10 py-8 h-screen flex gap-x-3 items-center justify-center ">
+            <div className="absolute top-0 right-0 flex gap-x-1 m-5">
+              <WalletMultiButton />
+              <WalletDisconnectButton />
+            </div>
+            <div className="flex gap-x-5 flex-wrap gap-y-5">
+              <Airdrop />
+              <SignMessage />
+            </div>
           </div>
         </WalletModalProvider>
       </WalletProvider>

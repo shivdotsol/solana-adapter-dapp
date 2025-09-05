@@ -11,13 +11,12 @@ function Airdrop() {
 
   const sendAirdrop = async () => {
     setIsAirdropLoading(true);
-    const res = await connection.requestAirdrop(
+    await connection.requestAirdrop(
       walletData.publicKey!!,
       amount!! * 1_000_000_000
     );
-    await getBalance();
     setIsAirdropLoading(false);
-    console.log(res);
+    await getBalance();
   };
 
   const getBalance = async () => {
@@ -32,57 +31,68 @@ function Airdrop() {
   };
 
   useEffect(() => {
-    getBalance();
+    if (walletData.publicKey) {
+      getBalance();
+    }
   }, [walletData]);
 
   return (
     <>
-      {walletData.publicKey && (
-        <div>
-          <div className="m-5 flex gap-x-2 items-center">
-            <input
-              className="w-52 border border-neutral-400 px-3 py-1 rounded-md"
-              type="number"
-              placeholder="amount (SOL)"
-              onChange={(e) => setAmount(Number(e.target.value))}
-              value={amount}
-            />
-            <div>SOL</div>
-            <button
-              disabled={!walletData.publicKey || !amount || isAirdropLoading}
-              onClick={sendAirdrop}
-              className="px-4 py-2 rounded-sm bg-neutral-900 text-neutral-100 font-bold cursor-pointer active:bg-neutral-700 active:scale-[97%] transition-all duration-100 disabled:bg-neutral-700 disabled:cursor-not-allowed disabled:active:scale-100"
-            >
-              {isAirdropLoading ? "Sending..." : "Send airdrop"}
-            </button>
-          </div>
-          <div className="w-fit mx-auto px-4 py-3 rounded-md flex items-center gap-x-1 bg-slate-800 text-neutral-100 font-bold">
-            <div>Balance:</div>{" "}
-            <div className="w-44 bg-slate-700 px-3 py-1 rounded-md text-white ml-2">
-              {isBalanceLoading ? (
-                "updating..."
-              ) : (
-                <span className="mr-2">
-                  <span>{formatBalance()[0] + "."}</span>
-                  <span className="text-sm text-slate-300">
-                    {formatBalance()[1]}
+      <div className="p-5 pb-7 flex rounded-xl bg-neutral-100 border border-neutral-300">
+        {walletData.publicKey ? (
+          <div>
+            <div className=" w-fit rounded-lg px-5 py-2 mb-8 text-xl font-bold bg-neutral-800 text-neutral-100">
+              Airdrop
+            </div>
+            <div className="mb-5 flex gap-x-2 items-center">
+              <input
+                className="w-52 border border-neutral-400 px-3 py-1 rounded-md"
+                type="number"
+                placeholder="amount (SOL)"
+                onChange={(e) => setAmount(Number(e.target.value))}
+                value={amount}
+              />
+              <div className="mr-5">SOL</div>
+              <button
+                disabled={!walletData.publicKey || !amount || isAirdropLoading}
+                onClick={sendAirdrop}
+                className="px-4 py-2 rounded-sm bg-neutral-900 text-neutral-100 font-bold cursor-pointer active:bg-neutral-700 active:scale-[97%] transition-all duration-100 disabled:bg-neutral-700 disabled:cursor-not-allowed disabled:active:scale-100"
+              >
+                {isAirdropLoading ? "Sending..." : "Send airdrop"}
+              </button>
+            </div>
+            <div className="w-fit mx-auto px-4 py-3 rounded-md flex items-center gap-x-1 bg-neutral-800 text-white font-bold">
+              <div>Balance:</div>{" "}
+              <div className="w-44 bg-neutral-600 px-3 py-1 rounded-md text-white ml-2">
+                {isBalanceLoading ? (
+                  "updating..."
+                ) : (
+                  <span className="mr-2">
+                    <span>{formatBalance()[0]}</span>
+                    <span className="text-sm text-slate-300">
+                      {formatBalance()[1] ? "." + formatBalance()[1] : ""}
+                    </span>
                   </span>
-                </span>
-              )}
-              {isBalanceLoading ? "" : "SOL"}
-            </div>
-            <div
-              className={`ml-2 w-8 h-8 ${
-                isBalanceLoading ? "bg-green-600" : "bg-green-500"
-              } flex items-center justify-center rounded-lg cursor-pointer`}
-              title="refresh"
-              onClick={getBalance}
-            >
-              <img src="/refresh.png" alt="refresh" className="w-5 h-5" />
+                )}
+                {isBalanceLoading ? "" : "SOL"}
+              </div>
+              <div
+                className={`ml-2 w-8 h-8 ${
+                  isBalanceLoading ? "bg-green-600" : "bg-green-500"
+                } flex items-center justify-center rounded-lg cursor-pointer`}
+                title="refresh"
+                onClick={getBalance}
+              >
+                <img src="/refresh.png" alt="refresh" className="w-5 h-5" />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="text-neutral-800 font-extrabold text-2xl">
+            Connect your wallet to continue.
+          </div>
+        )}
+      </div>
     </>
   );
 }
